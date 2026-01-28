@@ -72,8 +72,8 @@
 % \seuthesisthanks                % 资助信息，没有可以不写
 %     {本文的部分工作受国家自然基金 No. zxgg666 的支持与帮助，在此表示感谢。}
 
-%garbagecoder: \let 是 TeX 的赋值命令，它会让 \cleardoublepage 变成 \clearpage，原模板限制奇偶页适用于双面打印，此命令用于去掉多余的空白页
-% \let\cleardoublepage\clearpage 
+%garbagecoder: 原模板命令去掉空白页后，页眉会乱，新命令保证奇偶数页眉和页脚数字一致。
+% \let\cleardoublepage\seucleardoublepage
 
 %% ----------------------------------------------------------------------------
 %%                                  Cover
