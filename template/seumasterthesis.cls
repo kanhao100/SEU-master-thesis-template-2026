@@ -273,6 +273,12 @@
     \fancyfoot[CO,CE]{\thepage}
 }
 \pagestyle{seustyle}
+\fancypagestyle{plain}{
+    \fancyhf{}
+    \fancyhead[CO]{\xiaowuhao\leftmark}
+    \fancyhead[CE]{\xiaowuhao\universityname{}\@thesistype}
+    \fancyfoot[CO,CE]{\thepage}
+}
 \fancypagestyle{nom} {
     \fancyhf{}
     \fancyhead[CO]{\xiaowuhao\nomname}
