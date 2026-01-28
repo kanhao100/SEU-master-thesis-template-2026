@@ -265,6 +265,16 @@
 %%                           Header and Footer
 %% ----------------------------------------------------------------------------
 
+\newcommand{\seucleardoublepage}{
+    \clearpage
+    % 不插入空白页，仅在需要时递增页码，保证奇偶页按可见页码计算
+    \if@twoside
+        \if@openright
+            \ifodd\value{page}\else\stepcounter{page}\fi
+        \fi
+    \fi
+}
+
 \RequirePackage{fancyhdr}
 \fancypagestyle{seustyle} {
     \fancyhf{}
@@ -1079,6 +1089,8 @@
     \phantomsection
     \addcontentsline{toc}{chapter}{\@acktoc}
     \chapter*{\@acktitle}
+    \markboth{\@acktitle}{\@acktitle}
+    \thispagestyle{seustyle}
 }
 
 %% ----------------------------------------------------------------------------
@@ -1102,5 +1114,7 @@
     \phantomsection
     \addcontentsline{toc}{chapter}{#1}
     \chapter*{#1}
+    \markboth{#1}{#1}
+    \thispagestyle{seustyle}
 }
 \endinput
