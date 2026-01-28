@@ -54,10 +54,11 @@
     {YY Yyyy}        % 导师英文姓名
     {Prof.}                     % 导师职称
     
-\coadvisor                 % 联合培养导师姓名，没有可以不写
-    {王东南　高工}                  % 导师中文姓名
-    {ZZ Zzzz}             % 导师英文姓名
-    {Eng.}                 % 导师职称 (English), 如教授（Prof.）、副教授（A.P.）
+% \coadvisor                 % 联合培养导师姓名，没有可以不写
+%     {王东南　高工}                  % 导师中文姓名
+%     {ZZ Zzzz}             % 导师英文姓名
+%     {Eng.}                 % 导师职称 (English), 如教授（Prof.）、副教授（A.P.）
+
 %% ----------------------------------------------------------------------------
 %%                              Thesis Defence
 %% ----------------------------------------------------------------------------
@@ -96,6 +97,7 @@
 \input{chapters/abstract}
 \cleardoublepage
 \addcontentsline{toc}{chapter}{目　　录}
+\seuTocChapterVSpaceOff   % 控制目录中章节之间是否需要间隙，注释掉则需要间隙，不注释则与Word模板一致
 \tableofcontents          % 生成目录
 \listofothers             % 生成图、表等目录，没有可以不写
  

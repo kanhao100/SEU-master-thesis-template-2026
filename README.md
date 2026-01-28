@@ -21,17 +21,21 @@ garbagecodes: [SEU-master-thesis-template
 
 ## 本模板修改内容
 
-- 对于每一章第一页、摘要、致谢、作者简介的页眉进行补全
-- 原模板适用于双面打印的形式，提供去掉空白页的选项，print:印刷版，全书强制插空白页, digital: 电子版，仅正文强制插空白页
-- 修复学硕模板中A4小封面，缺少研究方向字样；日期被挤到下一页等问题；
-- 
+- 对于每一章第一页、摘要、致谢、作者简介的页眉进行补全。
+- 新提供去掉空白页的选项，\seuDoublePageMode{ }，print: 印刷版，全书强制插空白页, digital: 电子版，仅正文强制插空白页。
+- 修复学硕模板中A4小封面，缺少研究方向字样、日期被挤到下一页等问题。
+- 新提供了一个选项，\seuTocChapterVSpaceOff，可以控制目录中章节之间是否需要间隙，开启则与Word模板一致。
 
 
 ## 使用攻略
+不建议在Windows下自建环境编译，字体可能会不一致，本项目无法提供相关支持，请查阅本项目修改的原项目。
 
 ### Overleaf及Mac
+编译器请选XeLaTeX，主文件选择main.tex，如遇编译时间超时，可以先使用Draft快速编译再使用常规编译。
 
 详见Reanon: [SEUThesisLatexTemplate](https://github.com/Reanon/SEUThesisLatexTemplate) 或 docs/README-src.md或docs/README.pdf
+
+Overleaf现在超时编译很严重，可以考虑使用[texpage](https://www.texpage.com)，基本操作与Overleaf一致。
 
 ### Windows
 

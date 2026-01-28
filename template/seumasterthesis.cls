@@ -98,6 +98,18 @@
 }
 
 %% ----------------------------------------------------------------------------
+%%                          TOC spacing control
+%% ----------------------------------------------------------------------------
+\newlength{\seu@tocchaptervspace}
+\setlength{\seu@tocchaptervspace}{\cftbeforechapskip}
+\newcommand{\seuTocChapterVSpaceOn}{%
+    \setlength{\cftbeforechapskip}{\seu@tocchaptervspace}%
+}
+\newcommand{\seuTocChapterVSpaceOff}{%
+    \setlength{\cftbeforechapskip}{0pt}%
+}
+
+%% ----------------------------------------------------------------------------
 %%                        Mathematics Environment
 %% ----------------------------------------------------------------------------
 
@@ -318,9 +330,6 @@
 }
 \let\cleardoublepage\seu@cleardoublepage
 
-% 提供给 main.tex 的接口：
-%   \seuDoublePageMode{print}   % 印刷版：全书强制奇数页
-%   \seuDoublePageMode{digital} % 电子版：仅正文强制奇数页
 \newcommand{\seuDoublePageMode}[1]{%
     \def\seu@mode{#1}%
     \def\seu@print{print}%
@@ -333,7 +342,6 @@
 
 \newcommand{\seucleardoublepage}{
     \clearpage
-    % 不插入空白页，仅在需要时递增页码，保证奇偶页按可见页码计算
     \if@twoside
         \if@openright
             \ifodd\value{page}\else\stepcounter{page}\fi
@@ -1044,13 +1052,14 @@
 %% ----------------------------------------------------------------------------
 
 \renewenvironment{abstract}[1] {
-    \global\seu@thesisstartedtrue
     \pagenumbering{Roman}
     \clearpage
-    % 摘要页也显示页眉
-    \thispagestyle{seustyle}
+    % 声明之后的空白页不显示页眉
+    \thispagestyle{empty}
     \cleardoublepage
+    % 摘要页开始显示页眉
     \thispagestyle{seustyle}
+    \global\seu@thesisstartedtrue
     \newcommand{\@keywords}{#1}
     \hypersetup{pdfkeywords={\@keywords}}
     \phantomsection
