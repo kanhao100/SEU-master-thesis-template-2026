@@ -265,6 +265,72 @@
 %%                           Header and Footer
 %% ----------------------------------------------------------------------------
 
+% 章节清页策略（印刷版 vs 电子版）：
+% - 印刷版：全书遵循 openright，必要时插入空白页
+% - 电子版：仅正文遵循 openright；前置部分不插入空白页
+\newif\ifseu@mainmatter
+\newif\ifseu@openrightall
+\newif\ifseu@thesisstarted
+\seu@mainmatterfalse
+\seu@openrightallfalse
+\seu@thesisstartedfalse
+
+\newcommand{\seu@insertblankpage}{%
+    \hbox{}%
+    \ifseu@thesisstarted
+        \thispagestyle{seustyle}%
+    \else
+        \thispagestyle{empty}%
+    \fi
+    \newpage
+    \if@twocolumn
+        \hbox{}%
+        \ifseu@thesisstarted
+            \thispagestyle{seustyle}%
+        \else
+            \thispagestyle{empty}%
+        \fi
+        \newpage
+    \fi
+}
+
+\newcommand{\seu@printcleardoublepage}{%
+    \clearpage
+    \if@twoside
+        \if@openright
+            \ifodd\value{page}\else
+                \seu@insertblankpage
+            \fi
+        \fi
+    \fi
+}
+
+\newcommand{\seu@cleardoublepage}{%
+    \ifseu@openrightall
+        \seu@printcleardoublepage
+    \else
+        \ifseu@mainmatter
+            \seu@printcleardoublepage
+        \else
+            \clearpage
+        \fi
+    \fi
+}
+\let\cleardoublepage\seu@cleardoublepage
+
+% 提供给 main.tex 的接口：
+%   \seuDoublePageMode{print}   % 印刷版：全书强制奇数页
+%   \seuDoublePageMode{digital} % 电子版：仅正文强制奇数页
+\newcommand{\seuDoublePageMode}[1]{%
+    \def\seu@mode{#1}%
+    \def\seu@print{print}%
+    \ifx\seu@mode\seu@print
+        \seu@openrightalltrue
+    \else
+        \seu@openrightallfalse
+    \fi
+}
+
 \newcommand{\seucleardoublepage}{
     \clearpage
     % 不插入空白页，仅在需要时递增页码，保证奇偶页按可见页码计算
@@ -293,13 +359,13 @@
 \fancypagestyle{seuabstract}{
     \fancyhf{}
     \fancyhead[CO]{\xiaowuhao\@abstracttitle}
-    \fancyhead[CE]{\xiaowuhao\universityname{}\@thesistype}
+    \fancyhead[CE]{\xiaowuhao\@abstracttitle}
     \fancyfoot[CO,CE]{\thepage}
 }
 \fancypagestyle{seuabstracten}{
     \fancyhf{}
     \fancyhead[CO]{\xiaowuhao\@engabstracttitle}
-    \fancyhead[CE]{\xiaowuhao\universityname{}\@thesistype}
+    \fancyhead[CE]{\xiaowuhao\@engabstracttitle}
     \fancyfoot[CO,CE]{\thepage}
 }
 \fancypagestyle{nom} {
@@ -396,6 +462,10 @@
 \newcommand{\@submajor}{}
 \newcommand{\submajor}[1]{
     \renewcommand{\@submajor}{#1}
+}
+\newcommand{\@resdirection}{}
+\newcommand{\resdirection}[1]{
+    \renewcommand{\@resdirection}{#1}
 }
 \newcommand{\@defenddate}{}
 \newcommand{\defenddate}[1]{
@@ -624,25 +694,32 @@
         \begin{center}
             \setlength{\tabcolsep}{10pt}
             \renewcommand{\arraystretch}{2.0}
-            \begin{tabular}{ll}
-                \CoverBottomOption{\appdegreepre}{\@degreetype} &
-                \CoverBottomOption{\authorizeorganizationpre}{\@authorizeorganization} \\
-                \ifengineer
+            \ifengineer
+                \begin{tabular}{ll}
+                    \CoverBottomOption{\appdegreepre}{\@degreetype} &
+                    \CoverBottomOption{\authorizeorganizationpre}{\@authorizeorganization} \\
                     \CoverBottomOption{\engfieldpre}{\@major} &
-                \else
-                    \CoverBottomOption{\majorpre}{\@major} &
-                \fi
-                \CoverBottomOption{\defenddatepre}{\@defenddate}\\
-                \ifengineer
+                    \CoverBottomOption{\defenddatepre}{\@defenddate}\\
                     \CoverBottomOption{\resdirepre}{\@submajor} &
-                \else
+                    \CoverBottomOption{\authorizedatepre}{\@authorizedate}\\
+                    \CoverBottomOption[4.05cm]{\committeechairpre}{\@committeechair} &
+                    \CoverBottomOption{\reviewerpre}{\@reviewerA}\\
+                    & \CoverBottomOption{\makebox[2.55cm]{}}{\@reviewerB}
+                \end{tabular}
+            \else
+                \begin{tabular}{ll}
+                    \CoverBottomOption{\appdegreepre}{\@degreetype} &
+                    \CoverBottomOption{\authorizeorganizationpre}{\@authorizeorganization} \\
+                    \CoverBottomOption{\majorpre}{\@major} &
+                    \CoverBottomOption{\defenddatepre}{\@defenddate}\\
                     \CoverBottomOption{\submajorpre}{\@submajor} &
-                \fi
-                \CoverBottomOption{\authorizedatepre}{\@authorizedate}\\
-                \CoverBottomOption[4.05cm]{\committeechairpre}{\@committeechair} &
-                \CoverBottomOption{\reviewerpre}{\@reviewerA}\\
-                & \CoverBottomOption{\makebox[2.55cm]{}}{\@reviewerB}
-            \end{tabular}
+                    \CoverBottomOption{\authorizedatepre}{\@authorizedate}\\
+                    \CoverBottomOption{\resdirepre}{\@resdirection} &
+                    \CoverBottomOption{\reviewerpre}{\@reviewerA}\\
+                    \CoverBottomOption[4.05cm]{\committeechairpre}{\@committeechair} &
+                    \CoverBottomOption{\makebox[2.55cm]{}}{\@reviewerB}
+                \end{tabular}
+            \fi
         \end{center}
     \end{minipage}
 
@@ -724,16 +801,10 @@
         }
     }
 
-    %% Thesis title
-    \ifengineer
-        \setlength{\unitlength}{1cm}
-        \noindent
-        \vspace*{8.3cm}
-    \else
-        \setlength{\unitlength}{1cm}
-        \noindent
-        \vspace*{8.6cm}
-    \fi
+    %% Thesis title（学硕与专硕统一上边距，保证日期与封面同页）
+    \setlength{\unitlength}{1cm}
+    \noindent
+    \vspace*{8.3cm}
     \begin{center}
         \linespread{1.25}
         \erhao\heiti\@title\\
@@ -749,11 +820,11 @@
     \else
     \fi
 
-    %% Thesis author and advisor
+    %% Thesis author and advisor（学硕略收，保证日期与本页同版）
     \ifengineer
         \vspace*{0.1cm}
     \else
-        \vspace*{0.9cm}
+        \vspace*{0.3cm}
     \fi
     \begin{center}
         \setlength{\tabcolsep}{0pt}
@@ -794,25 +865,32 @@
     \begin{center}
         \setlength{\tabcolsep}{10pt}
         \renewcommand{\arraystretch}{2.0}
-        \begin{tabular}{ll}
-            \CoverBottomOption{\appdegreepre}{\@degreetype} &
-            \CoverBottomOption{\authorizeorganizationpre}{\@authorizeorganization} \\
-            \ifengineer
+        \ifengineer
+            \begin{tabular}{ll}
+                \CoverBottomOption{\appdegreepre}{\@degreetype} &
+                \CoverBottomOption{\authorizeorganizationpre}{\@authorizeorganization} \\
                 \CoverBottomOption{\engfieldpre}{\@major} &
-            \else
-                \CoverBottomOption{\majorpre}{\@major} &
-            \fi
-            \CoverBottomOption{\defenddatepre}{\@defenddate}\\
-            \ifengineer
+                \CoverBottomOption{\defenddatepre}{\@defenddate}\\
                 \CoverBottomOption{\resdirepre}{\@submajor} &
-            \else
+                \CoverBottomOption{\authorizedatepre}{\@authorizedate}\\
+                \CoverBottomOption[4.05cm]{\committeechairpre}{\@committeechair} &
+                \CoverBottomOption{\reviewerpre}{\@reviewerA}\\
+                & \CoverBottomOption{\makebox[2.55cm]{}}{\@reviewerB}
+            \end{tabular}
+        \else
+            \begin{tabular}{ll}
+                \CoverBottomOption{\appdegreepre}{\@degreetype} &
+                \CoverBottomOption{\authorizeorganizationpre}{\@authorizeorganization} \\
+                \CoverBottomOption{\majorpre}{\@major} &
+                \CoverBottomOption{\defenddatepre}{\@defenddate}\\
                 \CoverBottomOption{\submajorpre}{\@submajor} &
-            \fi
-            \CoverBottomOption{\authorizedatepre}{\@authorizedate}\\
-            \CoverBottomOption[4.05cm]{\committeechairpre}{\@committeechair} &
-            \CoverBottomOption{\reviewerpre}{\@reviewerA}\\
-            & \CoverBottomOption{\makebox[2.55cm]{}}{\@reviewerB}
-        \end{tabular}
+                \CoverBottomOption{\authorizedatepre}{\@authorizedate}\\
+                \CoverBottomOption{\resdirepre}{\@resdirection} &
+                \CoverBottomOption{\reviewerpre}{\@reviewerA}\\
+                \CoverBottomOption[4.05cm]{\committeechairpre}{\@committeechair} &
+                \CoverBottomOption{\makebox[2.55cm]{}}{\@reviewerB}
+            \end{tabular}
+        \fi
     \end{center}
 
     %% Date
@@ -966,6 +1044,7 @@
 %% ----------------------------------------------------------------------------
 
 \renewenvironment{abstract}[1] {
+    \global\seu@thesisstartedtrue
     \pagenumbering{Roman}
     \clearpage
     % 摘要页也显示页眉
@@ -995,6 +1074,7 @@
 %% ----------------------------------------------------------------------------
 
 \newenvironment{englishabstract}[1] {
+    \global\seu@thesisstartedtrue
     % Abstract 页也显示页眉
     \cleardoublepage\thispagestyle{seustyle}
     \newcommand{\@keywords}{#1}
@@ -1065,7 +1145,6 @@
     %% terminology list
     \ifnomlist
         \cleardoublepage
-        \clearpage
         \phantomsection
         \addcontentsline{toc}{chapter}{\nomname}
         \pagestyle{nom}
@@ -1075,6 +1154,7 @@
 }
 
 \newcommand{\mainmatter} {
+    \seu@mainmattertrue
     \cleardoublepage
     \pagenumbering{arabic}
     \pagestyle{seustyle}

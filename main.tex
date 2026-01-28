@@ -66,9 +66,10 @@
     {电子信息硕士}
     {Master of Electronic Information}
 \major{ \begin{minipage}{\linewidth}\centering 通信工程（含宽带\\网络、移动通信等）\end{minipage}}                 % 一级学科名
-\submajor{通信与信息系统}             % 二级学科名
+\submajor{通信与信息系统}             % 二级学科名（学硕） 研究方向（专硕）
+\resdirection{超光速量子纠缠通讯}     % 研究方向（学硕用，专硕请留空）
 \defenddate{2025年5月18日}          % 答辩日期 \today
-\authorizedate{}                  % 授予学位日期，这个档案袋不需要填
+\authorizedate{2025年　月　日}        % 授予学位日期，这个档案袋不需要填 
 \committeechair{}               % 答辩委员会主席姓名
 \reviewer{}{}                % 两位论文评阅人姓名
 \department                        % 学院名称
@@ -77,8 +78,10 @@
 % \seuthesisthanks                % 资助信息，没有可以不写
 %     {本文的部分工作受国家自然基金 No. zxgg666 的支持与帮助，在此表示感谢。}
 
-%garbagecoder: 原模板命令去掉空白页后，页眉会乱，新命令保证奇偶数页眉和页脚数字一致。
-% \let\cleardoublepage\seucleardoublepage
+% 插入空白页策略开关
+% print  : 印刷版，全书强制奇数页（会插空白页）
+% digital: 电子版，仅正文强制奇数页（会插空白页）
+\seuDoublePageMode{digital}
 
 %% ----------------------------------------------------------------------------
 %%                                  Cover
