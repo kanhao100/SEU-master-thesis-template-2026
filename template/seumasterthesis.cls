@@ -2,7 +2,7 @@
 %% ----------------------------------------------------------------------------
 %%  This file provides a LaTeX document class for typesetting thesis of
 %%  Southeast University, Nanjing, China.
-%%  Version: 2020/05/10 v3.4.1
+%%  Version: 2026/01/28 v4.0.1
 %% ----------------------------------------------------------------------------
 %%  Copyright (C) 2007-2012 Yuan Xu, email: xuyuan.cn@gmail.com
 %%  Copyright (C) 2016 James Fan, email: zhimengfan1990@163.com
@@ -97,6 +97,13 @@
     listtablename={表格目录}
 }
 
+%% 将「目录」加入目录并生成目录（含 \phantomsection，书签可正确跳转）
+\newcommand{\seuTableOfContents}{%
+    \phantomsection
+    \addcontentsline{toc}{chapter}{\contentsname}%
+    \tableofcontents
+}
+
 %% ----------------------------------------------------------------------------
 %%                          TOC spacing control
 %% ----------------------------------------------------------------------------
@@ -107,6 +114,28 @@
 }
 \newcommand{\seuTocChapterVSpaceOff}{%
     \setlength{\cftbeforechapskip}{0pt}%
+}
+
+%% ----------------------------------------------------------------------------
+%%                    List spacing control (LoF/LoT/LoA)
+%% ----------------------------------------------------------------------------
+\newif\ifseu@listchapterskip
+\seu@listchapterskiptrue
+\newcommand{\seuListChapterVSpaceOn}{%
+    \seu@listchapterskiptrue%
+}
+\newcommand{\seuListChapterVSpaceOff}{%
+    \seu@listchapterskipfalse%
+}
+
+%% Combined control for TOC and list spacing
+\newcommand{\seuTocAndListVSpaceOn}{%
+    \seuTocChapterVSpaceOn%
+    \seuListChapterVSpaceOn%
+}
+\newcommand{\seuTocAndListVSpaceOff}{%
+    \seuTocChapterVSpaceOff%
+    \seuListChapterVSpaceOff%
 }
 
 %% ----------------------------------------------------------------------------
@@ -277,9 +306,11 @@
 %%                           Header and Footer
 %% ----------------------------------------------------------------------------
 
-% 章节清页策略（印刷版 vs 电子版）：
-% - 印刷版：全书遵循 openright，必要时插入空白页
-% - 电子版：仅正文遵循 openright；前置部分不插入空白页
+% 章节清页策略（印刷版 / 电子版 / 盲审版）：
+% - print : 全书遵循 openright，必要时插入空白页
+% - digital: 仅正文遵循 openright；前置部分不插入空白页
+% - blind1: 正文不插空白页但跳页，保证每章首页奇数页
+% - blind2: 正文不插空白页也不跳页
 \newif\ifseu@mainmatter
 \newif\ifseu@openrightall
 \newif\ifseu@thesisstarted
@@ -317,14 +348,17 @@
     \fi
 }
 
+\newcommand{\seu@frontmattercleardoublepage}{\clearpage}
+\newcommand{\seu@mainmattercleardoublepage}{\seu@printcleardoublepage}
+
 \newcommand{\seu@cleardoublepage}{%
     \ifseu@openrightall
         \seu@printcleardoublepage
     \else
         \ifseu@mainmatter
-            \seu@printcleardoublepage
+            \seu@mainmattercleardoublepage
         \else
-            \clearpage
+            \seu@frontmattercleardoublepage
         \fi
     \fi
 }
@@ -333,11 +367,22 @@
 \newcommand{\seuDoublePageMode}[1]{%
     \def\seu@mode{#1}%
     \def\seu@print{print}%
+    \def\seu@digital{digital}%
+    \def\seu@blindone{blind1}%
+    \def\seu@blindtow{blind2}%
+    \seu@openrightallfalse
     \ifx\seu@mode\seu@print
         \seu@openrightalltrue
+        \renewcommand{\seu@mainmattercleardoublepage}{\seu@printcleardoublepage}
+    \else\ifx\seu@mode\seu@digital
+        \renewcommand{\seu@mainmattercleardoublepage}{\seu@printcleardoublepage}
+    \else\ifx\seu@mode\seu@blindone
+        \renewcommand{\seu@mainmattercleardoublepage}{\seucleardoublepage}
+    \else\ifx\seu@mode\seu@blindtow
+        \renewcommand{\seu@mainmattercleardoublepage}{\clearpage}
     \else
-        \seu@openrightallfalse
-    \fi
+        \renewcommand{\seu@mainmattercleardoublepage}{\seu@printcleardoublepage}
+    \fi\fi\fi\fi
 }
 
 \newcommand{\seucleardoublepage}{
@@ -1132,7 +1177,11 @@
         \cleardoublepage
         \phantomsection
         \addcontentsline{toc}{chapter}{\listfigurename}
-        \listoffigures
+        \ifseu@listchapterskip
+            \listoffigures
+        \else
+            {\let\addvspace\@gobble\listoffigures}
+        \fi
     \fi
 
     %% table list
@@ -1140,7 +1189,11 @@
         \cleardoublepage
         \phantomsection
         \addcontentsline{toc}{chapter}{\listtablename}
-        \listoftables
+        \ifseu@listchapterskip
+            \listoftables
+        \else
+            {\let\addvspace\@gobble\listoftables}
+        \fi
     \fi
 
     %% algorithm list
@@ -1148,7 +1201,11 @@
         \cleardoublepage
         \phantomsection
         \addcontentsline{toc}{chapter}{\listalgorithmname}
-        \listofalgorithms
+        \ifseu@listchapterskip
+            \listofalgorithms
+        \else
+            {\let\addvspace\@gobble\listofalgorithms}
+        \fi
     \fi
 
     %% terminology list

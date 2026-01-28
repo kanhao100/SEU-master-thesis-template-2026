@@ -1,9 +1,11 @@
-# 东南大学硕士毕业论文 Latex 模板
+# 东南大学硕士毕业论文 Latex 模板 2026
 
 本仓库是基于garbagecodes的 [SEU-master-thesis-template
 ](https://github.com/garbagecodes/SEU-master-thesis-template)  修改而来。
+修复了一系列格式问题。
 
 ## 模板修改次序
+基于上一个版本提供的修改次序，如有遗漏尽请谅解。
 
 TouchFishPioneer -->  Reanon
 
@@ -16,26 +18,30 @@ Reanon: [SEUThesisLatexTemplate](https://github.com/Reanon/SEUThesisLatexTemplat
 levitate-qian: [SEUThesisLatexTemplate-Levitate](https://levitate.lanzoub.com/iRmnq2j8wcnc)    
 [LaTeX札记（七）：硕士学位论文相关](https://levitate-qian.github.io/2024/12/28/latex-note-07/)
 
-garbagecodes: [SEU-master-thesis-template
-](https://github.com/garbagecodes/SEU-master-thesis-template)
+garbagecodes: [SEU-master-thesis-template](https://github.com/garbagecodes/SEU-master-thesis-template)
 
 ## 本模板修改内容
 
-- 对于每一章第一页、摘要、致谢、作者简介的页眉进行补全。
-- 新提供去掉空白页的选项，\seuDoublePageMode{ }，print: 印刷版，全书强制插空白页, digital: 电子版，仅正文强制插空白页。
-- 修复学硕模板中A4小封面，缺少研究方向字样、日期被挤到下一页等问题。
-- 新提供了一个选项，\seuTocChapterVSpaceOff，可以控制目录中章节之间是否需要间隙，开启则与Word模板一致。
-
+- 对于正文每一章首页、摘要、致谢、作者简介的页眉进行补全。[Issue#2](https://github.com/TouchFishPioneer/SEU-master-thesis/issues/2)
+- 新提供去掉空白页的选项，\seuDoublePageMode{ }，[Issue#14](https://github.com/TouchFishPioneer/SEU-master-thesis/issues/14)
+  - print  : 印刷版，全书强制奇数页（会插空白页），因为前面的封面页较多，所以看起来很多空白页，原来的模板默认选项
+  - digital: 电子版，仅正文强制奇数页（会插空白页），建议的选项，本模板默认选项
+  - blind1 : 盲审版1，正文不插空白页但跳页（章节首页保持奇数页）
+  - blind2 : 盲审版2，正文不插空白页也不跳页 （这会导致章节首页的页眉可能出现"东南大学硕士学位论文"而不是章节标题）
+- 修复了学硕模板中A4小封面中缺少研究方向字样、日期被挤到下一页等问题。
+- 新提供了一个选项，\seuTocAndListVSpaceOff，可以控制目录中章节之间是否需要间隙，开启则与Word模板一致，本模板默认开启。
+- 修复了pdf书签中“目录”跳转错误 [Issue#19](https://github.com/TouchFishPioneer/SEU-master-thesis/issues/19)
+- 如果发现其它格式问题，请提issue，本仓库提供技术支持到2026年6月
 
 ## 使用攻略
 不建议在Windows下自建环境编译，字体可能会不一致，本项目无法提供相关支持，请查阅本项目修改的原项目。
+Overleaf现在超时编译很严重，请考虑使用[texpage](https://www.texpage.com)，基本操作与Overleaf一致。
+使用前建议查看main.tex的每一行代码及注释，未能支持的非电子信息专硕、博士论文，请自行修改相应的部分即可。
 
 ### Overleaf及Mac
-编译器请选XeLaTeX，主文件选择main.tex，如遇编译时间超时，可以先使用Draft快速编译再使用常规编译。
+编译器请选XeLaTeX 2023以上，主文件选择main.tex，如遇编译时间超时，可以先使用Draft快速编译再使用常规编译。
 
 详见Reanon: [SEUThesisLatexTemplate](https://github.com/Reanon/SEUThesisLatexTemplate) 或 docs/README-src.md或docs/README.pdf
-
-Overleaf现在超时编译很严重，可以考虑使用[texpage](https://www.texpage.com)，基本操作与Overleaf一致。
 
 ### Windows
 
@@ -44,4 +50,8 @@ Overleaf现在超时编译很严重，可以考虑使用[texpage](https://www.te
 需执行脚本`make.bat`
 
 
+### 友情链接
+SEU 其它相关项目，如果有帮助请给予Star.
+- 一键下载校内硕博论文库pdf： [SEU-Thesis-Download](https://github.com/kanhao100/SEU-Thesis-Download)
+- 命令行进行校园网认证指南： [SEU-NET-login-Tutorial](https://github.com/kanhao100/SEU-NET-login-Tutorial)
 

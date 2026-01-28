@@ -1,9 +1,9 @@
 % 学硕
-\documentclass[algorithmlist,figurelist,tablelist,nomlist]{template/seumasterthesis}
+\documentclass[algorithmlist,figurelist,tablelist,nomlist,nocolorlinks]{template/seumasterthesis}
+% 参数解析：algorithmlist算法列表, figurelist图片列表, tablelist表格列表, nomlist术语列表，engineer专硕, nocolorlinks取消链接着色， 请根据需要选择你的参数。
 % 专硕
-% \documentclass[algorithmlist,figurelist,tablelist,nomlist,engineer]{template/seumasterthesis}
-% 学博
-% TODO: 学博模板
+% \documentclass[algorithmlist,figurelist,tablelist,nomlist,engineer,nocolorlinks]{template/seumasterthesis}
+
 \usepackage{multirow} % 处理跨行表格数据
 \usepackage{float}
 \usepackage{lipsum}
@@ -80,8 +80,10 @@
 %     {本文的部分工作受国家自然基金 No. zxgg666 的支持与帮助，在此表示感谢。}
 
 % 插入空白页策略开关
-% print  : 印刷版，全书强制奇数页（会插空白页）
-% digital: 电子版，仅正文强制奇数页（会插空白页）
+% print  : 印刷版，全书强制奇数页（会插空白页），因为前面的封面页较多，所以看起来很多空白页，原来的模板默认选项
+% digital: 电子版，仅正文强制奇数页（会插空白页），建议的选项，本模板默认选项
+% blind1 : 盲审版1，正文不插空白页但跳页（章节首页保持奇数页）
+% blind2 : 盲审版2，正文不插空白页也不跳页 （这会导致章节首页的页眉可能出现"东南大学硕士学位论文"而不是章节标题）
 \seuDoublePageMode{digital}
 
 %% ----------------------------------------------------------------------------
@@ -96,9 +98,8 @@
 %% ----------------------------------------------------------------------------
 \input{chapters/abstract}
 \cleardoublepage
-\addcontentsline{toc}{chapter}{目　　录}
-\seuTocChapterVSpaceOff   % 控制目录中章节之间是否需要间隙，注释掉则需要间隙，不注释则与Word模板一致
-\tableofcontents          % 生成目录
+\seuTocAndListVSpaceOff   % 控制目录/图表算法目录章节间距，注释掉则需要间隙，不注释则与Word模板一致
+\seuTableOfContents      % 生成目录（书签锚点在 cls 内通过 \phantomsection 设置，与摘要、致谢等一致）
 \listofothers             % 生成图、表等目录，没有可以不写
  
 %% ----------------------------------------------------------------------------
