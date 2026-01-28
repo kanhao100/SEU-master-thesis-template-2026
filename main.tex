@@ -1,5 +1,9 @@
-% \documentclass[algorithmlist,figurelist,tablelist,nomlist]{template/seumasterthesis} %学硕使用这一行
-\documentclass[algorithmlist,figurelist,tablelist,nomlist,engineer]{template/seumasterthesis}
+% 学硕
+\documentclass[algorithmlist,figurelist,tablelist,nomlist]{template/seumasterthesis}
+% 专硕
+% \documentclass[algorithmlist,figurelist,tablelist,nomlist,engineer]{template/seumasterthesis}
+% 学博
+% TODO: 学博模板
 \usepackage{multirow} % 处理跨行表格数据
 \usepackage{float}
 \usepackage{lipsum}
@@ -12,7 +16,8 @@
 % Mac系统如需更改宋体与Windows保持一直，前往https://github.com/Reanon/SEUThesisLatexTemplate/tree/master/font下载Simsun.ttf后打开安装到系统中即可
 
 \renewcommand{\thefootnote}{\ding{\numexpr171+\value{footnote}}}
-\setCJKmainfont{simsun.ttc}[AutoFakeBold]  %使用Overleaf需要注释掉这一行
+% 使用Overleaf需要注释掉下一行，在Windows下需要取消注释
+% \setCJKmainfont{simsun.ttc}[AutoFakeBold]
 \begin{document}
 
 %% ----------------------------------------------------------------------------
