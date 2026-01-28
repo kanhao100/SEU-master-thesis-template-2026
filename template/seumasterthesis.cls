@@ -274,8 +274,21 @@
 }
 \pagestyle{seustyle}
 \fancypagestyle{plain}{
+    % 章节首页默认使用 plain，这里统一成 seustyle
     \fancyhf{}
     \fancyhead[CO]{\xiaowuhao\leftmark}
+    \fancyhead[CE]{\xiaowuhao\universityname{}\@thesistype}
+    \fancyfoot[CO,CE]{\thepage}
+}
+\fancypagestyle{seuabstract}{
+    \fancyhf{}
+    \fancyhead[CO]{\xiaowuhao\@abstracttitle}
+    \fancyhead[CE]{\xiaowuhao\universityname{}\@thesistype}
+    \fancyfoot[CO,CE]{\thepage}
+}
+\fancypagestyle{seuabstracten}{
+    \fancyhf{}
+    \fancyhead[CO]{\xiaowuhao\@engabstracttitle}
     \fancyhead[CE]{\xiaowuhao\universityname{}\@thesistype}
     \fancyfoot[CO,CE]{\thepage}
 }
@@ -945,14 +958,19 @@
 \renewenvironment{abstract}[1] {
     \pagenumbering{Roman}
     \clearpage
-    \thispagestyle{empty}
+    % 摘要页也显示页眉
+    \thispagestyle{seustyle}
     \cleardoublepage
-    \thispagestyle{plain}
+    \thispagestyle{seustyle}
     \newcommand{\@keywords}{#1}
     \hypersetup{pdfkeywords={\@keywords}}
     \phantomsection
     \addcontentsline{toc}{chapter}{\@abstracttoc}
     \chapter*{\@abstracttitle}
+    % \chapter* 不会设置页眉标记，手动补齐
+    \markboth{\@abstracttitle}{\@abstracttitle}
+    % \chapter* 会把当前页设为 plain，这里用摘要专用页眉
+    \thispagestyle{seuabstract}
     \setcounter{page}{1}
 }
 {
@@ -967,7 +985,8 @@
 %% ----------------------------------------------------------------------------
 
 \newenvironment{englishabstract}[1] {
-    \cleardoublepage\thispagestyle{plain}
+    % Abstract 页也显示页眉
+    \cleardoublepage\thispagestyle{seustyle}
     \newcommand{\@keywords}{#1}
     \phantomsection
     \addcontentsline{toc}{chapter}{\@engabstracttoc}
@@ -976,6 +995,10 @@
         chapter/titleformat=\large\bfseries
     }
     \chapter*{\@engabstracttitle}
+    % \chapter* 不会设置页眉标记，手动补齐
+    \markboth{\@engabstracttitle}{\@engabstracttitle}
+    % \chapter* 会把当前页设为 plain，这里用英文摘要专用页眉
+    \thispagestyle{seuabstracten}
     \ctexset{
         chapter/nameformat=\large\heiti,
         chapter/titleformat=\large\heiti
