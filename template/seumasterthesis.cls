@@ -2,7 +2,7 @@
 %% ----------------------------------------------------------------------------
 %%  This file provides a LaTeX document class for typesetting thesis of
 %%  Southeast University, Nanjing, China.
-%%  Version: 2026/01/28 v4.0.1
+%%  Version: 2026/01/29 v4.0.3
 %% ----------------------------------------------------------------------------
 %%  Copyright (C) 2007-2012 Yuan Xu, email: xuyuan.cn@gmail.com
 %%  Copyright (C) 2016 James Fan, email: zhimengfan1990@163.com
@@ -20,6 +20,8 @@
 \newif\iftablelist\tablelistfalse
 \newif\ifnomlist\nomlistfalse
 \newif\ifengineer\engineerfalse
+\newif\ifphd\phdfalse
+\newif\ifseu@bookmarksnumbered\seu@bookmarksnumberedfalse
 
 \InputIfFileExists{template/seumasterthesis.cfg}  % 修改1 —— Reanon
 {\typeout{[seumasterthesis]: Load seumasterthesis.cfg successfully!}}
@@ -32,6 +34,8 @@
 \DeclareOption{tablelist}{\tablelisttrue}
 \DeclareOption{nomlist}{\nomlisttrue}
 \DeclareOption{engineer}{\engineertrue}
+\DeclareOption{phd}{\phdtrue}
+\DeclareOption{bookmarksnumbered}{\seu@bookmarksnumberedtrue}
 
 %% Template Pre-definition
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{ctexrep}}
@@ -42,6 +46,13 @@
 \RequirePackage{fontspec}
 \RequirePackage{datetime}
 \RequirePackage{url}
+
+%% Degree level defaults for doctoral thesis
+\ifphd
+    \renewcommand{\@degreelevel}{博士}
+    \renewcommand{\@degreetype}{工学博士}
+    \renewcommand{\@degreetypeen}{Doctor of Engineering}
+\fi
 
 %% ----------------------------------------------------------------------------
 %%                          Font and Font Size
@@ -168,7 +179,11 @@
 \newcommand{\setnomname}[1]{\renewcommand\nomname{#1}}
 \newcommand{\nomchinese}[1]{\renewcommand{\nomentryend}{\hspace*{\fill}\makebox[5cm][l]{#1}}}
 \renewcommand{\nomname}{英文缩略语}
-\renewcommand{\nompreamble}{\noindent \makebox[1in][l]{\bfseries 英文缩写} {\bfseries 英文全称}\hspace*{\fill}\makebox[5cm][l]{\bfseries 中文全称}\vspace{-3pt}}
+\renewcommand{\nompreamble}{%
+    \thispagestyle{nom}%
+    \markboth{\nomname}{\nomname}%
+    \noindent \makebox[1in][l]{\bfseries 英文缩写} {\bfseries 英文全称}\hspace*{\fill}\makebox[5cm][l]{\bfseries 中文全称}\vspace{-3pt}%
+}
 
 %% ----------------------------------------------------------------------------
 %%                          Algorithm Settings
@@ -286,6 +301,14 @@
     menucolor=red,
     urlcolor=magenta
 }
+%% PDF 书签：默认不显示章/节编号；加 class 选项 bookmarksnumbered 则书签显示第一章、1.1、1.1.1
+%% 书签深度始终到 subsubsection（即 1.1.1 这一层）
+\hypersetup{bookmarksdepth=4}
+\ifseu@bookmarksnumbered
+    \hypersetup{bookmarksnumbered=true}
+\else
+    \hypersetup{bookmarksnumbered=false}
+\fi
 
 %% ----------------------------------------------------------------------------
 %%                          Back Cover Settings
@@ -314,9 +337,11 @@
 \newif\ifseu@mainmatter
 \newif\ifseu@openrightall
 \newif\ifseu@thesisstarted
+\newif\ifseu@fronttitle
 \seu@mainmatterfalse
 \seu@openrightallfalse
 \seu@thesisstartedfalse
+\seu@fronttitletrue
 
 \newcommand{\seu@insertblankpage}{%
     \hbox{}%
@@ -371,14 +396,18 @@
     \def\seu@blindone{blind1}%
     \def\seu@blindtow{blind2}%
     \seu@openrightallfalse
+    \seu@fronttitletrue
     \ifx\seu@mode\seu@print
         \seu@openrightalltrue
         \renewcommand{\seu@mainmattercleardoublepage}{\seu@printcleardoublepage}
     \else\ifx\seu@mode\seu@digital
+        \seu@fronttitlefalse
         \renewcommand{\seu@mainmattercleardoublepage}{\seu@printcleardoublepage}
     \else\ifx\seu@mode\seu@blindone
+        \seu@fronttitlefalse
         \renewcommand{\seu@mainmattercleardoublepage}{\seucleardoublepage}
     \else\ifx\seu@mode\seu@blindtow
+        \seu@fronttitlefalse
         \renewcommand{\seu@mainmattercleardoublepage}{\clearpage}
     \else
         \renewcommand{\seu@mainmattercleardoublepage}{\seu@printcleardoublepage}
@@ -395,10 +424,21 @@
 }
 
 \RequirePackage{fancyhdr}
+\newcommand{\seu@evenheader}{%
+    \ifseu@mainmatter
+        \universityname{}\@thesistype
+    \else
+        \ifseu@fronttitle
+            \universityname{}\@thesistype
+        \else
+            \leftmark
+        \fi
+    \fi
+}
 \fancypagestyle{seustyle} {
     \fancyhf{}
     \fancyhead[CO]{\xiaowuhao\leftmark}
-    \fancyhead[CE]{\xiaowuhao\universityname{}\@thesistype}
+    \fancyhead[CE]{\xiaowuhao\seu@evenheader}
     \fancyfoot[CO,CE]{\thepage}
 }
 \pagestyle{seustyle}
@@ -406,7 +446,7 @@
     % 章节首页默认使用 plain，这里统一成 seustyle
     \fancyhf{}
     \fancyhead[CO]{\xiaowuhao\leftmark}
-    \fancyhead[CE]{\xiaowuhao\universityname{}\@thesistype}
+    \fancyhead[CE]{\xiaowuhao\seu@evenheader}
     \fancyfoot[CO,CE]{\thepage}
 }
 \fancypagestyle{seuabstract}{
@@ -424,7 +464,7 @@
 \fancypagestyle{nom} {
     \fancyhf{}
     \fancyhead[CO]{\xiaowuhao\nomname}
-    \fancyhead[CE]{\xiaowuhao\universityname{}\@thesistype}
+    \fancyhead[CE]{\xiaowuhao\nomname}
     \fancyfoot[CO,CE]{\thepage}
 }
 \renewcommand{\headrulewidth}{0.4pt}
@@ -638,11 +678,13 @@
 
     %% Thesis name
     \begin{picture}(0,0)
-        \ifengineer
-            \put(22,-7.3){\includegraphics[scale=0.33]{figures/defined/electronic_master.pdf}}
-        \else
-            \put(24.2,-7.5){\includegraphics[scale=0.32]{figures/defined/master.png}}
-        \fi
+    \ifphd
+        \put(24.2,-7.5){\includegraphics[scale=0.32]{figures/defined/doctor.pdf}}
+    \else\ifengineer
+        \put(22,-7.3){\includegraphics[scale=0.33]{figures/defined/electronic_master.pdf}}
+    \else
+        \put(24.2,-7.5){\includegraphics[scale=0.32]{figures/defined/master.png}}
+    \fi\fi
     \end{picture}
 
     %% Southeast University badge
@@ -835,11 +877,13 @@
         \put(0,18.5){
             \parbox{\paperwidth}{
                 \centering
-                \ifengineer
-                    \includegraphics[scale=0.33]{figures/defined/electronic_master.pdf}
-                \else
-                    \includegraphics[scale=0.32]{figures/defined/master.png}
-                \fi
+        \ifphd
+            \includegraphics[scale=0.32]{figures/defined/doctor.pdf}
+        \else\ifengineer
+            \includegraphics[scale=0.33]{figures/defined/electronic_master.pdf}
+        \else
+            \includegraphics[scale=0.32]{figures/defined/master.png}
+        \fi\fi
             }
         }
     }
@@ -967,11 +1011,13 @@
         \xiaochuhao
         \includegraphics[height=0.63in]{figures/defined/seu-text-logo.png}\\
         \centering
-        \ifengineer
+        \ifphd
+            \includegraphics[scale=0.32]{figures/defined/doctor.pdf}
+        \else\ifengineer
             \includegraphics[scale=0.32]{figures/defined/master.png}
         \else
             \includegraphics[scale=0.32]{figures/defined/master.png}
-        \fi
+        \fi\fi
 
         %% Thesis title
         \vspace{40pt}
@@ -1051,11 +1097,13 @@
             % 修改4 -- Reanon, 专业硕士为 Professional，学术硕士为 Academic
             %{  For the Professional Degree of \@degreetypeen}\\
             % from https://github.com/TouchFishPioneer/SEU-master-thesis/pull/12/files
-            \ifengineer
+            \ifphd
+                {For the Academic Degree of \@degreetypeen}\\
+            \else\ifengineer
                 {For the Professional Degree of \@degreetypeen}\\
             \else
                 {For the Academic Degree of \@degreetypeen}\\
-            \fi
+            \fi\fi
 
             %% Author
             {\vspace{0.5in}}

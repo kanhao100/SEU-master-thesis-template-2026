@@ -1,8 +1,10 @@
 % 学硕
-\documentclass[algorithmlist,figurelist,tablelist,nomlist,nocolorlinks]{template/seumasterthesis}
-% 参数解析：algorithmlist算法列表, figurelist图片列表, tablelist表格列表, nomlist术语列表，engineer专硕, nocolorlinks取消链接着色， 请根据需要选择你的参数。
+\documentclass[algorithmlist,figurelist,tablelist,nomlist,nocolorlinks,bookmarksnumbered]{template/seumasterthesis}
+% 参数解析：algorithmlist算法列表, figurelist图片列表, tablelist表格列表, nomlist术语列表，engineer专硕, phd博士, nocolorlinks取消链接着色，bookmarksnumbered则PDF书签显示第一章、1.1、1.1.1（默认不显示章/节编号）。请根据需要选择你的参数。
 % 专硕
-% \documentclass[algorithmlist,figurelist,tablelist,nomlist,engineer,nocolorlinks]{template/seumasterthesis}
+% \documentclass[algorithmlist,figurelist,tablelist,nomlist,engineer,nocolorlinks,bookmarksnumbered]{template/seumasterthesis}
+% 博士
+% \documentclass[algorithmlist,figurelist,tablelist,nomlist,phd,nocolorlinks,bookmarksnumbered]{template/seumasterthesis}
 
 \usepackage{multirow} % 处理跨行表格数据
 \usepackage{float}
@@ -54,7 +56,7 @@
     {YY Yyyy}        % 导师英文姓名
     {Prof.}                     % 导师职称
     
-% \coadvisor                 % 联合培养导师姓名，没有可以不写
+% \coadvisor                 % 联合培养导师姓名，没有请注释掉
 %     {王东南　高工}                  % 导师中文姓名
 %     {ZZ Zzzz}             % 导师英文姓名
 %     {Eng.}                 % 导师职称 (English), 如教授（Prof.）、副教授（A.P.）
@@ -72,12 +74,12 @@
 \defenddate{2025年5月18日}          % 答辩日期 \today
 \authorizedate{2025年　月　日}        % 授予学位日期，这个档案袋不需要填 
 \committeechair{}               % 答辩委员会主席姓名
-\reviewer{}{}                % 两位论文评阅人姓名
+\reviewer{}{}                % 两位论文评阅人姓名，盲审请填写盲审
 \department                        % 学院名称
     {信息科学与工程学院}
     {School of Information Science and Engineering}
-% \seuthesisthanks                % 资助信息，没有可以不写
-%     {本文的部分工作受国家自然基金 No. zxgg666 的支持与帮助，在此表示感谢。}
+\seuthesisthanks                % 资助信息，没有请注释掉
+    {本文的部分工作受国家自然基金 No. zxgg666 的支持与帮助，在此表示感谢。}
 
 % 插入空白页策略开关
 % print  : 印刷版，全书强制奇数页（会插空白页），因为前面的封面页较多，所以看起来很多空白页，原来的模板默认选项
