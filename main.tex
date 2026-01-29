@@ -6,6 +6,15 @@
 % 博士
 % \documentclass[algorithmlist,figurelist,tablelist,nomlist,phd,nocolorlinks,bookmarksnumbered]{template/seumasterthesis}
 
+%% ========== 参考文献：BST 样式与 BIB 数据库 ==========
+%% 不同 bst 所需 bib 字段/格式可能不同，请对应切换 \seuBstStyle 与 \seuBibFiles。
+% GB/T 7714-2015 国标
+% \renewcommand{\seuBstStyle}{template/gbt7714-2015}
+% \renewcommand{\seuBibFiles}{reference}
+% 东南大学特定样式（区分硕士博士学位论文等，人名小写）
+\renewcommand{\seuBstStyle}{template/seumasterthesis}
+\renewcommand{\seuBibFiles}{reference}
+
 \usepackage{multirow} % 处理跨行表格数据
 \usepackage{float}
 \usepackage{lipsum}
@@ -119,7 +128,7 @@
 %%            Acknowledgement, Appendix, Bibliography and Resume
 %% ----------------------------------------------------------------------------
 \input{chapters/acknowledgement}    % 致谢
-\thesisbib{IEEEfull,reference}               % 生成参考文献
+\thesisbib                                   % 生成参考文献（bst/bib 由上文 \seuBstStyle、\seuBibFiles 控制）
 
 %% 下面一句只是用于提示 TexPad 参考文献位置，正式生成时一定要删除
 % \bibliography{reference.bib} % 告诉编译器参考文献所在文件

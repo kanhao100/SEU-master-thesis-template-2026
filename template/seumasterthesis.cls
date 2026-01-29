@@ -2,7 +2,7 @@
 %% ----------------------------------------------------------------------------
 %%  This file provides a LaTeX document class for typesetting thesis of
 %%  Southeast University, Nanjing, China.
-%%  Version: 2026/01/29 v4.0.3
+%%  Version: 2026/01/29 v4.0.5
 %% ----------------------------------------------------------------------------
 %%  Copyright (C) 2007-2012 Yuan Xu, email: xuyuan.cn@gmail.com
 %%  Copyright (C) 2016 James Fan, email: zhimengfan1990@163.com
@@ -47,11 +47,11 @@
 \RequirePackage{datetime}
 \RequirePackage{url}
 
-%% Degree level defaults for doctoral thesis
+%% 博士论文时采用 cfg 中的学位默认值
 \ifphd
-    \renewcommand{\@degreelevel}{博士}
-    \renewcommand{\@degreetype}{工学博士}
-    \renewcommand{\@degreetypeen}{Doctor of Engineering}
+    \renewcommand{\@degreelevel}{\@degreelevelphd}
+    \renewcommand{\@degreetype}{\@degreetypephd}
+    \renewcommand{\@degreetypeen}{\@degreetypeenphd}
 \fi
 
 %% ----------------------------------------------------------------------------
@@ -1290,13 +1290,16 @@
 %% ----------------------------------------------------------------------------
 %%                             Bibliography
 %% ----------------------------------------------------------------------------
+%% 参考文献样式与 bib 文件由 \seuBstStyle、\seuBibFiles 控制，可在 main.tex 头部配置
+\providecommand{\seuBstStyle}{template/gbt7714-2015}
+\providecommand{\seuBibFiles}{reference}
 
-\newcommand{\thesisbib}[1] {
-    \bibliographystyle{template/seumasterthesis} % 修改2 —— Reanon
+\newcommand{\thesisbib}{%
+    \bibliographystyle{\seuBstStyle}%
     \cleardoublepage
     \phantomsection
-    \addcontentsline{toc}{chapter}{\bibname}
-    \bibliography{#1}
+    \addcontentsline{toc}{chapter}{\bibname}%
+    \bibliography{\seuBibFiles}%
 }
 
 %% ----------------------------------------------------------------------------
