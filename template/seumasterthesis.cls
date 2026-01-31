@@ -718,18 +718,18 @@
         }
     \end{picture}
 
-    %% Thesis title
+    %% Thesis title（一号时两行标题+副标题较高，减小上边距避免往下挤；大标题与副标题同块一起动）
     \ifengineer
-        \vspace*{5.7cm}
+        \vspace*{5.5cm}
     \else
-        \vspace*{6.0cm}
+        \vspace*{5.8cm}
     \fi
     \hspace*{21cm}
     \begin{minipage}{16cm}
         \begin{center}
             \linespread{1.25}
-            \erhao\heiti\@title\\
-            % \erhao\heiti\@subtitle\\    % 修改3 -- Reanon 为了避免空副标题
+            \yihao\heiti\@title\\
+            \yihao\heiti\@subtitle
         \end{center}
     \end{minipage}
 
@@ -748,9 +748,9 @@
 
     %% Thesis author and advisor
     \ifengineer
-        \vspace*{0.4cm}
+        \vspace*{0.15cm}
     \else
-        \vspace*{1.5cm}
+        \vspace*{0.7cm}
     \fi
     \hspace*{21cm}
     \begin{minipage}{16cm}
@@ -898,14 +898,17 @@
         }
     }
 
-    %% Thesis title（学硕与专硕统一上边距，保证日期与封面同页）
+    %% Thesis title（一号时两行标题+副标题较高，减小上边距避免往下挤；大标题与副标题同块一起动）
     \setlength{\unitlength}{1cm}
     \noindent
-    \vspace*{8.3cm}
+    \vspace*{8.9cm}
     \begin{center}
-        \linespread{1.25}
-        \erhao\heiti\@title\\
-        \erhao\heiti\@subtitle
+        \begin{minipage}[c]{16cm}  % 与 bigcover 同宽，保证两行标题断行位置一致
+            \centering
+            \linespread{1.25}
+            \yihao\heiti\@title\\
+            \yihao\heiti\@subtitle
+        \end{minipage}
     \end{center}
 
     %% Engineering Thesis Type
@@ -919,9 +922,9 @@
 
     %% Thesis author and advisor（学硕略收，保证日期与本页同版）
     \ifengineer
-        \vspace*{0.1cm}
+        \vspace*{-0.3cm}
     \else
-        \vspace*{0.3cm}
+        \vspace*{0.1cm}
     \fi
     \begin{center}
         \setlength{\tabcolsep}{0pt}
@@ -989,7 +992,8 @@
             \end{tabular}
         \fi
     \end{center}
-
+    \vspace*{-0.1cm}
+    
     %% Date
     \vfill
     \setcounter{page}{1} {
@@ -1023,7 +1027,7 @@
         \vspace{40pt}
         \erhao\heiti\@title\@thesisthanks\\
         \erhao\heiti\@subtitle
-
+        
         %% Author and advisor
         \vspace{120pt}
         {

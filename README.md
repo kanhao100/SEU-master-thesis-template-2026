@@ -34,6 +34,8 @@ garbagecodes: [SEU-master-thesis-template](https://github.com/garbagecodes/SEU-m
 - 修复了pdf书签中“目录”跳转错误 [Issue#19](https://github.com/TouchFishPioneer/SEU-master-thesis/issues/19)
 - 添加了学术博士的支持，但不保证格式正确性，请自行检查核对。
 - 添加了参数bookmarksnumbered，可以控制书签中是否出现章/节编号，开启则与Word模板一致，本模板默认开启。
+- 新增 `chapters/nomenclature.tex` 集中存放术语与符号表，方便修改。
+- 封面大标题字号从二号改为一号，和word模板一致；封面样式修改，对于学硕模板进行了精细化调整，但同时也支持专硕封面；修复了大封面和小封面两行断行位置不一样的问题。
 - 如果发现其它格式问题，请提issue，本仓库提供技术支持到2026年6月。
 
 ### 参考文献部分
@@ -49,6 +51,7 @@ TODO：增添arXiv文献参考格式
 https://github.com/Reanon/SEUThesisLatexTemplate/pull/9
 
 争议点：会议论文怎么引用
+
 GB/T 7714-2015:
 
 HE K, ZHANG X, REN S, et al. Deep residual learning for image recognition[C]. IEEE conference on computer vision and pattern recognition(CVPR). IEEE, 2016. 770-778.

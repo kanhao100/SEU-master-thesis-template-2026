@@ -43,10 +43,12 @@
 %%                           Thesis Title and Spine
 %% ----------------------------------------------------------------------------
 \title
-    {东南大学 \LaTeX 论文模板使用手册}        % 论文中文标题
-    {如何优雅地撰写硕士研究生毕业论文}         % 论文中文副标题，没有可以空着
+    {东南大学 \LaTeX 论文模板使用手册:多行标题测试}        % 论文中文标题
+    % {如何优雅地撰写硕士研究生毕业论文}         % 论文中文副标题，没有可以空着
+    {}
     {Southeast University \LaTeX ~Thesis Template User Manual}  % 论文英文标题
-    {How to Write a Master Thesis in an Elegant Way}            % 论文英文副标题，没有可以空着
+    % {How to Write a Master Thesis in an Elegant Way}            % 论文英文副标题，没有可以空着
+    {}
 
 \spine
 	% 书脊标题与副标题
@@ -110,7 +112,10 @@
 \input{chapters/abstract}
 \cleardoublepage
 \seuTocAndListVSpaceOff   % 控制目录/图表算法目录章节间距，注释掉则需要间隙，不注释则与Word模板一致
+% \seuListChapterVSpaceOff   % 单独控制目录章节间距，注释掉则需要间隙，不注释则与Word模板一致
+% \seuTocChapterVSpaceOff   % 单独控制图表算法目录章节间距，注释掉则需要间隙，不注释则与Word模板一致
 \seuTableOfContents      % 生成目录（书签锚点在 cls 内通过 \phantomsection 设置，与摘要、致谢等一致）
+\input{chapters/nomenclature}  % 术语与符号表（nomlist 开启时由 \listofothers 输出）
 \listofothers             % 生成图、表等目录，没有可以不写
  
 %% ----------------------------------------------------------------------------
