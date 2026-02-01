@@ -463,8 +463,8 @@
 }
 \fancypagestyle{nom} {
     \fancyhf{}
-    \fancyhead[CO]{\xiaowuhao\nomname}
-    \fancyhead[CE]{\xiaowuhao\nomname}
+    \fancyhead[CO]{\xiaowuhao\leftmark}
+    \fancyhead[CE]{\xiaowuhao\seu@evenheader}
     \fancyfoot[CO,CE]{\thepage}
 }
 \renewcommand{\headrulewidth}{0.4pt}
@@ -1266,7 +1266,7 @@
         \phantomsection
         \addcontentsline{toc}{chapter}{\nomname}
         \pagestyle{nom}
-        \setlength{\nomitemsep}{0pt}
+        \setlength{\nomitemsep}{-6pt} % 条目间距，可改小更密、0pt 恢复
         \printnomenclature[1in]
     \fi
 }
