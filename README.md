@@ -37,6 +37,7 @@ garbagecodes: [SEU-master-thesis-template](https://github.com/garbagecodes/SEU-m
 - 新增 `chapters/nomenclature.tex` 集中存放术语与符号表，方便修改。
 - 封面大标题字号从二号改为一号，和word模板一致；封面样式修改，对于学硕模板进行了精细化调整，但同时也支持专硕封面；修复了大封面和小封面两行断行位置不一样的问题。
 - 将英文缩略语的间距调整的更紧密一些。
+- 默认禁用强制底部对齐，部分同学会遇到垂直间距被异常拉伸，请详见 [Issue#1](https://github.com/kanhao100/SEU-master-thesis-template-2026/issues/1)
 - 如果发现其它格式问题，请提issue，本仓库提供技术支持到2026年6月。
 
 ### 参考文献部分
