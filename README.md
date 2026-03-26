@@ -1,24 +1,14 @@
 # 东南大学硕士毕业论文 Latex 模板 2026
 
-本仓库是基于garbagecodes的 [SEU-master-thesis-template
-](https://github.com/garbagecodes/SEU-master-thesis-template)  修改而来。
+本仓库是基于garbagecodes的 [SEU-master-thesis-template](https://github.com/garbagecodes/SEU-master-thesis-template)修改而来。
+
 本仓库针对一些历史遗留问题进行了修复，同时对学术博士论文进行了一定的支持。本仓库的特色是提供了各种接口可供同学们选择使用，而不是覆盖式修改。
 
 ## 模板修改次序
 基于上一个版本提供的修改次序，如有遗漏尽请谅解。
 
-zhimengfan1990 --> TouchFishPioneer -->  Reanon -->  levitate-qian（2024）  --> garbagecodes（2025） -->  本模板 （2026）
+zhimengfan1990: [seuthesix](https://github.com/zhimengfan1990/seuthesix) --> TouchFishPioneer: [SEU-master-thesis](https://github.com/TouchFishPioneer/SEU-master-thesis) -->  Reanon: [SEUThesisLatexTemplate](https://github.com/Reanon/SEUThesisLatexTemplate) -->  levitate-qian（2024）: [SEUThesisLatexTemplate-Levitate](https://levitate.lanzoub.com/iRmnq2j8wcnc), [LaTeX札记（七）：硕士学位论文相关](https://levitate-qian.github.io/2024/12/28/latex-note-07/)  --> garbagecodes（2025）: [SEU-master-thesis-template](https://github.com/garbagecodes/SEU-master-thesis-template) -->  本模板 （2026）
 
-zhimengfan1990: [seuthesix](https://github.com/zhimengfan1990/seuthesix)
-
-TouchFishPioneer: [SEU-master-thesis](https://github.com/TouchFishPioneer/SEU-master-thesis)
-
-Reanon: [SEUThesisLatexTemplate](https://github.com/Reanon/SEUThesisLatexTemplate)
-
-levitate-qian: [SEUThesisLatexTemplate-Levitate](https://levitate.lanzoub.com/iRmnq2j8wcnc)    
-[LaTeX札记（七）：硕士学位论文相关](https://levitate-qian.github.io/2024/12/28/latex-note-07/)
-
-garbagecodes: [SEU-master-thesis-template](https://github.com/garbagecodes/SEU-master-thesis-template)
 
 ## 本模板修改内容
 
@@ -39,7 +29,7 @@ garbagecodes: [SEU-master-thesis-template](https://github.com/garbagecodes/SEU-m
 - 将英文缩略语的间距调整的更紧密一些。
 - 默认禁用强制底部对齐，部分同学会遇到垂直间距被异常拉伸，请详见 [Issue#1](https://github.com/kanhao100/SEU-master-thesis-template-2026/issues/1)。
 - 将图、表caption字体规格化为五号宋体，表内文字规格化为小五宋体 [Issue#3](https://github.com/kanhao100/SEU-master-thesis-template-2026/issues/3)。如果超宽表格出现自适应，请检查是否使用\resizebox{\textwidth}{!}，详见 [Chapter4.2表格 - 超宽测试表格示例](chapters/chapter4.tex)。
-- 如果发现其它格式问题，请提issue，本仓库提供技术支持到2026年6月。
+- 如果发现其它格式问题，请提issue，本仓库提供技术支持到2026年6月。【仅保证学硕】
 
 ### 参考文献部分
 参考文献格式非常混乱，虽然[2024年12月研究生院下发的写作指南中](docs/东南大学研究生学位论文写作指南-1203V4.pdf)中提到按照国家标准“GB/T 7714-2015”执行，但其后面给出的具体示例却有明显不一样，给出的优秀范文中也不一样，三者均不一样。例如国标要求外文名字全大写，学位论文不区分硕士博士，给的示例却要求[博士学位论文]和[硕士学位论文]。
