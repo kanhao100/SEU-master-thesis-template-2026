@@ -215,6 +215,57 @@
 \end{tabular}
 \end{table}
 
+\noindent 有时候需要插入内容较多的超宽表格，可以结合 \verb|tabularx| 或 \verb|resizebox| 环境进行控制，但是会导致字体变小，可能会影响格式审查，结合 \verb|resizebox| 使用如下：
+
+\begin{tcolorbox}
+\begin{lstlisting}[language=TeX]
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{ccccccccccccc}
+\toprule
+列1 & 列2 & 列3 & 列4 & 列5 & 列6 & 列7 & 列8 & 列9 & 列10 & 列11 & 列12 & 列13 \\
+\midrule
+数据1 & 数据2 & 数据3 & 数据4 & 数据5 & 数据6 & 数据7 & 数据8 & 数据9 & 数据10 & 数据11 & 数据12 & 数据13 \\
+数据a & 数据b & 数据c & 数据d & 数据e & 数据f & 数据g & 数据h & 数据i & 数据j & 数据k & 数据l & 数据m \\
+\bottomrule
+\end{tabular}
+}
+\end{lstlisting}
+\end{tcolorbox}
+
+\noindent 代码通过 \verb|\resizebox{\textwidth}{!}| 指定表格宽度自适应页面宽度，适用于超宽表格的展示需求。
+
+\begin{table}[htbp]
+\centering
+\caption{超宽测试表格示例（结合 \textbackslash resizebox\{\textwidth\}\{!\} 使用）}
+\label{tab:4_wide1}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{ccccccccccccc}
+\toprule
+列1 & 列2 & 列3 & 列4 & 列5 & 列6 & 列7 & 列8 & 列9 & 列10 & 列11 & 列12 & 列13 \\
+\midrule
+数据1 & 数据2 & 数据3 & 数据4 & 数据5 & 数据6 & 数据7 & 数据8 & 数据9 & 数据10 & 数据11 & 数据12 & 数据13 \\
+数据a & 数据b & 数据c & 数据d & 数据e & 数据f & 数据g & 数据h & 数据i & 数据j & 数据k & 数据l & 数据m \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+
+\begin{table}[htbp]
+\centering
+\caption{超宽测试表格示例（不结合 \textbackslash resizebox\{\textwidth\}\{!\} 使用）}
+\label{tab:4_wide2}
+\begin{tabular}{ccccccccccccc}
+\toprule
+列1 & 列2 & 列3 & 列4 & 列5 & 列6 & 列7 & 列8 & 列9 & 列10 & 列11 & 列12 & 列13 \\
+\midrule
+数据1 & 数据2 & 数据3 & 数据4 & 数据5 & 数据6 & 数据7 & 数据8 & 数据9 & 数据10 & 数据11 & 数据12 & 数据13 \\
+数据a & 数据b & 数据c & 数据d & 数据e & 数据f & 数据g & 数据h & 数据i & 数据j & 数据k & 数据l & 数据m \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
 \noindent 想要定义一个表格，首先需要声明浮动体环境：
 
 \begin{tcolorbox}

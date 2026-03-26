@@ -59,7 +59,8 @@
 %% ----------------------------------------------------------------------------
 
 %% Font
-\RequirePackage[font=small]{caption}
+\RequirePackage{etoolbox}
+\RequirePackage{caption}
 \setmainfont[Mapping=tex-text]{Times New Roman}
 \renewcommand{\cftchapleader}{\bfseries\cftdotfill{\cftdotsep}}
 % \newcommand{\cmufont}{\fontspec{CMU Serif}}
@@ -264,8 +265,15 @@
 % \renewcommand{\thetable}{\thechapter{}.\arabic{table}}
 \renewcommand{\thetable}{\thechapter{}-\arabic{table}}   % 修改5 -- 统一图、表、算法序号标记 from XHomL
 \renewcommand{\thefigure}{\thechapter{}-\arabic{figure}}
+%% Caption: 五号宋体（英文继承 Times New Roman，由 xeCJK 自动处理）
+\DeclareCaptionFont{wuhaosong}{\wuhao\songti}
+\captionsetup{font=wuhaosong}
 \captionsetup[table]{labelsep=quad}
 \captionsetup[figure]{labelsep=quad}
+%% 正文表格正文：小五宋体
+%% 利用 \seu@thesisstarted 标志门控：封面生成时标志为 false，进入摘要/正文后为 true
+%% 封面裸 tabular 不受影响；浮动体 table/table* 内的 tabular 均生效
+\AtBeginEnvironment{tabular}{\ifseu@thesisstarted\xiaowuhao\songti\fi}
 \RequirePackage{graphicx}
 \RequirePackage{booktabs}
 \renewcommand{\toprule}{\specialrule{.08em}{0pt}{.5ex}}
