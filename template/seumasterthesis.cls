@@ -230,6 +230,36 @@
 
 \RequirePackage[super,square,comma,compress,sort]{natbib}
 \newcommand\citen[1]{[\!\!\citenum{#1}]}
+%% Bibliography line spacing hook: keep default behavior unless users opt in.
+\let\seu@biblinespread\@empty
+\let\seu@bibitemsep\@empty
+\newcommand{\seuBibLineSpread}[1]{%
+    \def\seu@biblinespread{#1}%
+}
+\newcommand{\seuBibLineSpreadClear}{%
+    \let\seu@biblinespread\@empty
+}
+\newcommand{\seuBibItemSep}[1]{%
+    \def\seu@bibitemsep{#1}%
+}
+\newcommand{\seuBibItemSepClear}{%
+    \let\seu@bibitemsep\@empty
+}
+\newcommand{\seuBibSingleSpaceOn}{%
+    \seuBibLineSpread{1}%
+}
+\newcommand{\seuBibSingleSpaceOff}{%
+    \seuBibLineSpreadClear%
+}
+\AtBeginEnvironment{thebibliography}{%
+    \ifx\seu@biblinespread\@empty\else
+        \linespread{\seu@biblinespread}\selectfont%
+    \fi%
+    \ifx\seu@bibitemsep\@empty\else
+        \setlength{\bibsep}{\seu@bibitemsep}%
+        \setlength{\itemsep}{\seu@bibitemsep}%
+    \fi%
+}
 
 %% ----------------------------------------------------------------------------
 %%                          Code Env Settings

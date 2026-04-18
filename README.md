@@ -29,6 +29,7 @@ zhimengfan1990: [seuthesix](https://github.com/zhimengfan1990/seuthesix) --> Tou
 - 将英文缩略语的间距调整的更紧密一些。
 - 默认禁用强制底部对齐，部分同学会遇到垂直间距被异常拉伸，请详见 [Issue#1](https://github.com/kanhao100/SEU-master-thesis-template-2026/issues/1)。
 - 将图、表caption字体规格化为五号宋体，表内文字规格化为小五宋体 [Issue#3](https://github.com/kanhao100/SEU-master-thesis-template-2026/issues/3)。如果超宽表格出现自适应，请检查是否使用\resizebox{\textwidth}{!}，详见 [Chapter4.2表格 - 超宽测试表格示例](chapters/chapter4.tex)。
+- 新增参考文献排版接口：`\seuBibItemSep{...}` 用于调整条目与条目之间的间距，`\seuBibLineSpread{...}` 用于调整单个条目内部换行后的行距，并保留 `\seuBibSingleSpaceOn` 和 `\seuBibSingleSpaceOff` 作为预设。默认保持原样，只有用户显式开启时才会调整参考文献的松紧，用于处理部分同学反馈的参考文献偏松问题 [Issue#4](https://github.com/kanhao100/SEU-master-thesis-template-2026/issues/4)。
 - 如果发现其它格式问题，请提issue，本仓库提供技术支持到2026年6月。【仅保证学硕】
 
 ### 参考文献部分
@@ -39,6 +40,26 @@ zhimengfan1990: [seuthesix](https://github.com/zhimengfan1990/seuthesix) --> Tou
 本模板将提供两个版本的参考文件格式，除了国标“GB/T 7714-2015”标准样式以外，再提供一个尽量贴合写作指南中示例的样式，在main.tex中即可控制使用哪个版本。
 
 这部分的修改可能会比较漫长，慢慢改吧，有问题再改，先这样吧，这个版本勉强能用
+
+如果你觉得参考文献偏松，可以在 `main.tex` 导言区按需开启下面的接口，默认不启用：
+
+```tex
+% 调整条目与条目之间的间距
+% 注意：这里必须带长度单位，如 0pt、-1pt、-2pt，不能写成 0.1 这种纯数字
+\seuBibItemSep{0pt}
+
+% 如果想调单个条目内部换行后的行距，再用这个参数
+% 例如 0.96 会比单倍更紧一些，1 为单倍
+% \seuBibLineSpread{0.96}
+
+% 或者直接使用单倍行距预设（只影响条目内部换行）
+% \seuBibSingleSpaceOn
+
+% 关闭上面的预设，恢复模板默认行为
+% \seuBibSingleSpaceOff
+% \seuBibItemSepClear
+% \seuBibLineSpreadClear
+```
 
 TODO：增添arXiv文献参考格式
 https://github.com/Reanon/SEUThesisLatexTemplate/pull/9

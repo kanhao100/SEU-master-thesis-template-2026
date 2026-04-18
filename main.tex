@@ -14,6 +14,11 @@
 % 东南大学特定样式（区分硕士博士学位论文等，人名小写）
 \renewcommand{\seuBstStyle}{template/seumasterthesis}
 \renewcommand{\seuBibFiles}{reference}
+% 可选：如果觉得参考文献条目之间偏松，可调条目间距
+% 注意：这里必须带长度单位，如 0pt、-1pt、-2pt，不能写成 0.1 这种纯数字
+% \seuBibItemSep{0pt}
+% 如果想调条目内部换行的行距，再用下面这个参数
+% \seuBibLineSpread{0.96}
 
 \usepackage{multirow} % 处理跨行表格数据
 \usepackage{float}
