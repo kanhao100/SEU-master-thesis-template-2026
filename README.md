@@ -41,28 +41,20 @@ zhimengfan1990: [seuthesix](https://github.com/zhimengfan1990/seuthesix) --> Tou
 
 这部分的修改可能会比较漫长，慢慢改吧，有问题再改，先这样吧，这个版本勉强能用
 
-如果你觉得参考文献偏松，可以在 `main.tex` 导言区按需开启下面的接口，默认不启用：
+当前`seumasterthesis.bst`模板已补充 `arXiv` 与 `manual` 文献示例及样式支持：
 
-```tex
-% 调整条目与条目之间的间距
-% 注意：这里必须带长度单位，如 0pt、-1pt、-2pt，不能写成 0.1 这种纯数字
-\seuBibItemSep{0pt}
+- `arXiv` 预印本建议使用 `@misc`（或可被识别为 arXiv/CoRR 的 `@article`），统一按 `[EB/OL]` 输出。
+- `arXiv` 当前输出格式为：
 
-% 如果想调单个条目内部换行后的行距，再用这个参数
-% 例如 0.96 会比单倍更紧一些，1 为单倍
-% \seuBibLineSpread{0.96}
-
-% 或者直接使用单倍行距预设（只影响条目内部换行）
-% \seuBibSingleSpaceOn
-
-% 关闭上面的预设，恢复模板默认行为
-% \seuBibSingleSpaceOff
-% \seuBibItemSepClear
-% \seuBibLineSpreadClear
+```text
+Vaswani A, Shazeer N, Parmar N, et al. Attention Is All You Need[EB/OL]. arXiv preprint arXiv:1706.03762, 2017.
 ```
 
-TODO：增添arXiv文献参考格式
-https://github.com/Reanon/SEUThesisLatexTemplate/pull/9
+- `manual` 当前按 `[M]` 输出，例如：
+
+```text
+GNU Project. GNU Make Manual[M]. 4th. Boston: GNU Project, 2024.
+```
 
 争议点：会议论文怎么引用
 

@@ -22,10 +22,13 @@
 
 ENTRY
   { address
+    archiveprefix
     author
     booktitle
     chapter
     edition
+    eprint
+    eprinttype
     editor
     howpublished
     institution
@@ -36,6 +39,7 @@ ENTRY
     number
     organization
     pages
+    primaryclass
     publisher
     school
     series
@@ -455,43 +459,119 @@ FUNCTION {format.year.month.day}
 { year empty$
     { month empty$
         { day empty$
-		  {""}
-		  'day
-		  if$
-	    }
+            { "" }
+            'day
+          if$
+        }
         { day empty$
-          'month
-		  {month "-" * day *}
-		  if$
+            'month
+            { month "-" * day * }
+          if$
         }
       if$
     }
-   { month empty$
+    { month empty$
         { day empty$
-		  {year}
-		  {"There is year and day, but no month." warning$ 
-		  year "-" * "[" *
-		  language missing$
-		  {month empty}
-		  {缺少月份}
-		  if$
-		  "]-" * day *
-		  }
-		  if$
-	    }
+            { year }
+            { "There is year and day, but no month." warning$
+              year "-" * "[month missing]-" * day *
+            }
+          if$
+        }
         { day empty$
-          {year "-" * month *}
-		  {year "-" * month * "-" * day *}
-		  if$
+            { year "-" * month * }
+            { year "-" * month * "-" * day * }
+          if$
         }
       if$
     }
-	if$
+  if$
 }
-
 
 FUNCTION {format.btitle}
 { format.title
+}
+
+FUNCTION {is.arxiv.prefix}
+{ archiveprefix empty$
+    { eprinttype empty$
+        { #0 }
+        { eprinttype "arXiv" =
+          eprinttype "arxiv" = or
+        }
+      if$
+    }
+    { archiveprefix "arXiv" =
+      archiveprefix "arxiv" = or
+    }
+  if$
+}
+
+FUNCTION {is.arxiv.preprint}
+{ is.arxiv.prefix
+    { #1 }
+    { journal empty$
+        { #0 }
+        { journal #1 #4 substring$ "CoRR" =
+          journal #1 #5 substring$ "arXiv" = or
+        }
+      if$
+    }
+  if$
+}
+
+FUNCTION {format.eprint}
+{ eprint empty$
+    { "" }
+    { is.arxiv.prefix
+        { "arXiv: " eprint * }
+        { archiveprefix empty$
+            { eprinttype empty$
+                { "eprint: " eprint * }
+                { eprinttype ": " * eprint * }
+              if$
+            }
+            { archiveprefix ": " * eprint * }
+          if$
+        }
+      if$
+      primaryclass empty$
+        'skip$
+        { " [" * primaryclass * "]" * }
+      if$
+    }
+  if$
+}
+
+FUNCTION {format.arxiv.preprint}
+{ is.arxiv.preprint
+    { eprint empty$
+        { "" }
+        { "arXiv preprint arXiv:" eprint *
+          year empty$
+            'skip$
+            { ", " * year * }
+          if$
+        }
+      if$
+    }
+    { "" }
+  if$
+}
+
+FUNCTION {format.url.or.arxiv}
+{ url empty$
+    { is.arxiv.preprint
+        { eprint empty$
+            { "" }
+            { "\url{https://arxiv.org/abs/" eprint * "}" * }
+          if$
+        }
+        { "" }
+      if$
+    }
+    { "\url{" url * "}" * }
+  if$
 }
 
 FUNCTION {tie.or.space.connect}
@@ -931,30 +1011,112 @@ language missing$
 if$
 }
 
+FUNCTION {format.manual.author.organization}
+{ author empty$
+    { organization empty$
+        { "" }
+        { organization }
+      if$
+    }
+    { format.authors }
+  if$
+}
+
+FUNCTION {format.addr.org.year}
+{ address empty$
+    { organization empty$
+        { year empty$
+            { "" }
+            { year }
+          if$
+        }
+        { organization
+          year empty$
+            'skip$
+            { ", " * year * }
+          if$
+        }
+      if$
+    }
+    { organization empty$
+        { year empty$
+            { address }
+            { address ", " * year * }
+          if$
+        }
+        { address ": " * organization *
+          year empty$
+            'skip$
+            { ", " * year * }
+          if$
+        }
+      if$
+    }
+  if$
+}
+
+FUNCTION {electronic.misc}
+{ output.bibitem
+  format.authors output
+  new.block
+  format.title
+  duplicate$ empty$
+  'skip$
+  {"[EB/OL]" * }
+  if$
+  output
+  new.block
+
+  is.arxiv.preprint
+    { format.arxiv.preprint output
+      new.block
+    }
+    { format.eprint output
+      new.block
+
+      format.url.or.arxiv output
+      new.block
+
+      format.year.only output
+      new.block
+    }
+  if$
+  note output
+  fin.entry
+  empty.misc.check
+}
+
 
 
 FUNCTION {article}
-{ output.bibitem
-  format.authors "author" output.check
-  new.block
-  
-  format.title 
-duplicate$ 
-  empty$
-  {"title" output.check}
-{"[J]" * "title" output.check}
-if$
-new.block
+{ is.arxiv.preprint
+  { electronic.misc }
+  { output.bibitem
+    format.authors "author" output.check
+    new.block
 
-    journal "journal" output.check
-	
-	 year "year" output.check
-	 
-     format.vol.num.pages output
-  new.block
-  
-  note output
-  fin.entry
+    format.title
+    duplicate$
+      empty$
+      { "title" output.check }
+      { "[J]" * "title" output.check }
+    if$
+    new.block
+
+    journal empty$
+      { format.eprint "journal or eprint" output.check }
+      { journal "journal" output.check }
+    if$
+
+    year "year" output.check
+
+    format.vol.num.pages output
+    new.block
+
+    note output
+    fin.entry
+  }
+  if$
 }
 
 FUNCTION {book}
@@ -1162,32 +1324,32 @@ fin.entry
 }
 
 
-FUNCTION {misc}
+FUNCTION {manual}
 { output.bibitem
-  format.authors output
+  format.manual.author.organization output
   new.block
-  format.title 
+
+  format.title
   duplicate$ empty$
-  'skip$
-  {"[EB/OL]" * }
+    { "title" output.check }
+    { "[M]" * "title" output.check }
   if$
-  output
   new.block
-  
-  url 
-  duplicate$ empty$
-  'skip$
-  {pop$ "\url{" url * "}" * }
- if$
-  output 
+
+  format.edition output
   new.block
-  
-  format.year.only output
+
+  format.addr.org.year output
   new.block
+
   note output
   fin.entry
-  empty.misc.check
 }
+
+FUNCTION {misc}
+{ electronic.misc }
+
+FUNCTION {online} { misc }
 
 FUNCTION {en.phdthesis}
 { output.bibitem
