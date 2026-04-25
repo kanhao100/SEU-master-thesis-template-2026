@@ -111,6 +111,7 @@
 
 %% 将「目录」加入目录并生成目录（含 \phantomsection，书签可正确跳转）
 \newcommand{\seuTableOfContents}{%
+    \pagestyle{seufrontmatter}%
     \phantomsection
     \addcontentsline{toc}{chapter}{\contentsname}%
     \tableofcontents
@@ -181,8 +182,8 @@
 \newcommand{\nomchinese}[1]{\renewcommand{\nomentryend}{\hspace*{\fill}\makebox[5cm][l]{#1}}}
 \renewcommand{\nomname}{英文缩略语}
 \renewcommand{\nompreamble}{%
-    \thispagestyle{nom}%
     \markboth{\nomname}{\nomname}%
+    \thispagestyle{seufrontmatterfirst}%
     \noindent \makebox[1in][l]{\bfseries 英文缩写} {\bfseries 英文全称}\hspace*{\fill}\makebox[5cm][l]{\bfseries 中文全称}\vspace{-3pt}%
 }
 
@@ -439,13 +440,10 @@
         \seu@openrightalltrue
         \renewcommand{\seu@mainmattercleardoublepage}{\seu@printcleardoublepage}
     \else\ifx\seu@mode\seu@digital
-        \seu@fronttitlefalse
         \renewcommand{\seu@mainmattercleardoublepage}{\seu@printcleardoublepage}
     \else\ifx\seu@mode\seu@blindone
-        \seu@fronttitlefalse
         \renewcommand{\seu@mainmattercleardoublepage}{\seucleardoublepage}
     \else\ifx\seu@mode\seu@blindtow
-        \seu@fronttitlefalse
         \renewcommand{\seu@mainmattercleardoublepage}{\clearpage}
     \else
         \renewcommand{\seu@mainmattercleardoublepage}{\seu@printcleardoublepage}
@@ -462,6 +460,19 @@
 }
 
 \RequirePackage{fancyhdr}
+\newcommand{\seu@frontmatterevenheader}{%
+    \universityname{}\@thesistype
+}
+\newcommand{\seu@frontmatteroddoreven}[1]{%
+    \ifodd\c@page#1\else\seu@frontmatterevenheader\fi
+}
+\newcommand{\seu@plain@evenheader}{%
+    \ifseu@mainmatter
+        \seu@evenheader
+    \else
+        \leftmark
+    \fi
+}
 \newcommand{\seu@evenheader}{%
     \ifseu@mainmatter
         \universityname{}\@thesistype
@@ -484,25 +495,43 @@
     % 章节首页默认使用 plain，这里统一成 seustyle
     \fancyhf{}
     \fancyhead[CO]{\xiaowuhao\leftmark}
-    \fancyhead[CE]{\xiaowuhao\seu@evenheader}
+    \fancyhead[CE]{\xiaowuhao\seu@plain@evenheader}
     \fancyfoot[CO,CE]{\thepage}
+}
+\fancypagestyle{seufrontmatterfirst}{
+    \fancyhf{}
+    \fancyhead[C]{\xiaowuhao\leftmark}
+    \fancyfoot[C]{\thepage}
+}
+\fancypagestyle{seufrontmatter}{
+    \fancyhf{}
+    \fancyhead[CO]{\xiaowuhao\leftmark}
+    \fancyhead[CE]{\xiaowuhao\seu@frontmatterevenheader}
+    \fancyfoot[CO,CE]{\thepage}
+}
+\fancypagestyle{seuabstractfirst}{
+    \fancyhf{}
+    \fancyhead[C]{\xiaowuhao\@abstracttitle}
+    \fancyfoot[C]{\thepage}
 }
 \fancypagestyle{seuabstract}{
     \fancyhf{}
-    \fancyhead[CO]{\xiaowuhao\@abstracttitle}
-    \fancyhead[CE]{\xiaowuhao\@abstracttitle}
-    \fancyfoot[CO,CE]{\thepage}
+    \fancyhead[C]{\xiaowuhao\seu@frontmatteroddoreven{\@abstracttitle}}
+    \fancyfoot[C]{\thepage}
+}
+\fancypagestyle{seuabstractenfirst}{
+    \fancyhf{}
+    \fancyhead[C]{\xiaowuhao\@engabstracttitle}
+    \fancyfoot[C]{\thepage}
 }
 \fancypagestyle{seuabstracten}{
     \fancyhf{}
-    \fancyhead[CO]{\xiaowuhao\@engabstracttitle}
-    \fancyhead[CE]{\xiaowuhao\@engabstracttitle}
-    \fancyfoot[CO,CE]{\thepage}
+    \fancyhead[C]{\xiaowuhao\seu@frontmatteroddoreven{\@engabstracttitle}}
+    \fancyfoot[C]{\thepage}
 }
 \fancypagestyle{nom} {
     \fancyhf{}
-    \fancyhead[CO]{\xiaowuhao\leftmark}
-    \fancyhead[CE]{\xiaowuhao\seu@evenheader}
+    \fancyhead[CO,CE]{\xiaowuhao\leftmark}
     \fancyfoot[CO,CE]{\thepage}
 }
 \renewcommand{\headrulewidth}{0.4pt}
@@ -1192,19 +1221,16 @@
     % 声明之后的空白页不显示页眉
     \thispagestyle{empty}
     \cleardoublepage
-    % 摘要页开始显示页眉
-    \thispagestyle{seustyle}
     \global\seu@thesisstartedtrue
     \newcommand{\@keywords}{#1}
     \hypersetup{pdfkeywords={\@keywords}}
     \phantomsection
     \addcontentsline{toc}{chapter}{\@abstracttoc}
-    \chapter*{\@abstracttitle}
-    % \chapter* 不会设置页眉标记，手动补齐
-    \markboth{\@abstracttitle}{\@abstracttitle}
-    % \chapter* 会把当前页设为 plain，这里用摘要专用页眉
-    \thispagestyle{seuabstract}
     \setcounter{page}{1}
+    \chapter*{\@abstracttitle}
+    \markboth{\@abstracttitle}{\@abstracttitle}
+    \thispagestyle{seuabstractfirst}
+    \pagestyle{seuabstract}
 }
 {
     \par
@@ -1219,8 +1245,7 @@
 
 \newenvironment{englishabstract}[1] {
     \global\seu@thesisstartedtrue
-    % Abstract 页也显示页眉
-    \cleardoublepage\thispagestyle{seustyle}
+    \cleardoublepage
     \newcommand{\@keywords}{#1}
     \phantomsection
     \addcontentsline{toc}{chapter}{\@engabstracttoc}
@@ -1229,10 +1254,9 @@
         chapter/titleformat=\large\bfseries
     }
     \chapter*{\@engabstracttitle}
-    % \chapter* 不会设置页眉标记，手动补齐
     \markboth{\@engabstracttitle}{\@engabstracttitle}
-    % \chapter* 会把当前页设为 plain，这里用英文摘要专用页眉
-    \thispagestyle{seuabstracten}
+    \thispagestyle{seuabstractenfirst}
+    \pagestyle{seuabstracten}
     \ctexset{
         chapter/nameformat=\large\heiti,
         chapter/titleformat=\large\heiti
@@ -1261,6 +1285,7 @@
 
 
 \newcommand\listofothers {
+    \pagestyle{seufrontmatter}
 
     %% figure list
     \iffigurelist
@@ -1303,7 +1328,7 @@
         \cleardoublepage
         \phantomsection
         \addcontentsline{toc}{chapter}{\nomname}
-        \pagestyle{nom}
+        \pagestyle{seufrontmatter}
         \setlength{\nomitemsep}{-6pt} % 条目间距，可改小更密、0pt 恢复
         \printnomenclature[1in]
     \fi
