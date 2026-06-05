@@ -31,6 +31,7 @@ zhimengfan1990: [seuthesix](https://github.com/zhimengfan1990/seuthesix) --> Tou
 - 将图、表caption字体规格化为五号宋体，表内文字规格化为小五宋体 [Issue#3](https://github.com/kanhao100/SEU-master-thesis-template-2026/issues/3)。如果超宽表格出现自适应，请检查是否使用\resizebox{\textwidth}{!}，详见 [Chapter4.2表格 - 超宽测试表格示例](chapters/chapter4.tex)。
 - 新增参考文献排版接口：`\seuBibItemSep{...}` 用于调整条目与条目之间的间距，`\seuBibLineSpread{...}` 用于调整单个条目内部换行后的行距，并保留 `\seuBibSingleSpaceOn` 和 `\seuBibSingleSpaceOff` 作为预设。默认保持原样，只有用户显式开启时才会调整参考文献的松紧，用于处理部分同学反馈的参考文献偏松问题 [Issue#4](https://github.com/kanhao100/SEU-master-thesis-template-2026/issues/4)。
 - 将正文排版间距调整为更接近 Word 模板的观感：页边距按学校格式文件收为上下 2cm，页眉与正文之间的距离固定，章标题、节标题、小节标题前后距收紧，同时收紧图、表、算法浮动体与正文之间的距离，以及图题/表题与图表本体之间的距离。
+- 将 `chapters/Committees_list.tex` 中的毕业/学位论文答辩委员会名单表格调整为铺满正文宽度，避免终版表单看起来过窄。
 - 如果发现其它格式问题，请提issue，本仓库提供技术支持到2026年6月。【仅保证学硕】
 
 ### 参考文献部分
