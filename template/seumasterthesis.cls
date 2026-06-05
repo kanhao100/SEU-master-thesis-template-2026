@@ -41,7 +41,16 @@
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{ctexrep}}
 \ProcessOptions
 \LoadClass[twoside,a4paper,zihao=-4,UTF8,openright]{ctexrep}
-\RequirePackage[top=1.1in,bottom=1.1in,left=2.5cm,right=2.5cm,a4paper]{geometry}
+\RequirePackage[
+    top=2cm,
+    bottom=2cm,
+    left=2.5cm,
+    right=2.5cm,
+    headheight=14pt,
+    headsep=0.45cm,
+    footskip=0.8cm,
+    a4paper
+]{geometry}
 \RequirePackage[titles]{tocloft}
 \RequirePackage{fontspec}
 \RequirePackage{datetime}
@@ -91,18 +100,25 @@
     chapter/numberformat=\sanhao\heiti,
     chapter/titleformat=\sanhao\heiti,
     chapter/beforeskip=0pt,
+    chapter/afterskip=18bp,
     %% Section: four, bold song, lefted
     section/format=\raggedright,
     section/nameformat={\large\bfseries},
     section/numberformat={\large\bfseries},
     section/titleformat={\sihao\bfseries},
+    section/beforeskip=10bp,
+    section/afterskip=6bp,
     %% Subsection: small four, bold, lefted
     subsection/format=\raggedright,
     subsection/nameformat={\xiaosihao\heiti},
     subsection/numberformat={\xiaosihao\heiti},
     subsection/titleformat={\xiaosihao\heiti},
+    subsection/beforeskip=8bp,
+    subsection/afterskip=4bp,
     %% Subsubsection
     subsubsection/format=\xiaosihao\bfseries\raggedright,
+    subsubsection/beforeskip=6bp,
+    subsubsection/afterskip=3bp,
     %% List of figure and table
     contentsname={目　录},
     listfigurename={插图目录},
@@ -298,7 +314,7 @@
 \renewcommand{\thefigure}{\thechapter{}-\arabic{figure}}
 %% Caption: 五号宋体（英文继承 Times New Roman，由 xeCJK 自动处理）
 \DeclareCaptionFont{wuhaosong}{\wuhao\songti}
-\captionsetup{font=wuhaosong}
+\captionsetup{font=wuhaosong,skip=3bp}
 \captionsetup[table]{labelsep=quad}
 \captionsetup[figure]{labelsep=quad}
 %% 正文表格正文：小五宋体
@@ -312,6 +328,12 @@
 \renewcommand{\bottomrule}{\specialrule{.08em}{.5ex}{0pt}}
 \RequirePackage[labelformat=simple,justification=centering]{subfig}
 \renewcommand\thesubfigure{(\alph{subfigure})}
+
+\setlength{\textfloatsep}{8bp plus 2bp minus 2bp}
+\setlength{\intextsep}{8bp plus 2bp minus 2bp}
+\setlength{\floatsep}{6bp plus 2bp minus 2bp}
+\setlength{\abovecaptionskip}{3bp}
+\setlength{\belowcaptionskip}{0bp}
 
 \renewcommand{\topfraction}{0.9}       % 页面顶部浮动体允许的最大比例
 \renewcommand{\bottomfraction}{0.8}    % 页面底部浮动体允许的最大比例
