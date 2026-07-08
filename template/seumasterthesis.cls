@@ -990,7 +990,7 @@
     %% Thesis title（一号时两行标题+副标题较高，减小上边距避免往下挤；大标题与副标题同块一起动）
     \setlength{\unitlength}{1cm}
     \noindent
-    \vspace*{8.9cm}
+    \vspace*{9.56cm}
     \begin{center}
         \begin{minipage}[c]{16cm}  % 与 bigcover 同宽，保证两行标题断行位置一致
             \centering
